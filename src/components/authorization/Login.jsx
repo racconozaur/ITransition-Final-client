@@ -14,7 +14,7 @@ const Login = () => {
     const {t} = useTranslation()
 
     const submitHandler = () => {
-        if(email.trim() === '' || password.trim() == ''){
+        if(email.trim() === '' || password.trim() === ''){
             alert('Fields are empty')
         }
         else{

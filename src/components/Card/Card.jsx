@@ -1,10 +1,8 @@
 
 import React from 'react';
 import { useState } from 'react';
-import axios from 'axios'
 import Button from '../../utils/button/Button';
 import { deleteuser, updateRole, updateStatus } from '../../actions/user';
-import Checkbox from '../../utils/checkbox/Checkbox';
 import { Link } from 'react-router-dom';
 
 const Card = (props) => {

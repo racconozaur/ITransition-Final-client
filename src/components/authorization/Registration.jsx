@@ -10,13 +10,7 @@ const Registration = () => {
     const {t} = useTranslation()
 
     return (
-        // <div className='authorization'>
-        //     <div className="authorization__header">Регистрация</div>
-        //     <Input value={email} setValue={setEmail} type="text" placeholder="Введите email..."/>
-        //     <Input value={password} setValue={setPassword} type="password" placeholder="Введите пароль..."/>
-        //     <button className="authorization__btn" onClick={() => registration(email, password)}>Зарегистрироваться</button>
-        // </div>
-
+    
         <div>
         <div className=' flex justify-center mt-20'>
         <div className=' bg-blue-400 w-96 p-10 rounded-lg'>
@@ -46,7 +40,6 @@ const Registration = () => {
                 >
                     {t('Registeration')}
                 </button>
-                {/* <input type="submit" value="Submit" className=' bg-green-300 p-3 rounded-lg my-5 hover:cursor-pointer' /> */}
             </div>
         </div>
 
