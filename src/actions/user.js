@@ -1,9 +1,10 @@
-import axios from 'axios'
+// import axios from 'axios'
 import {setUser} from "../reducers/userReducer";
+import axios from '../handlers/axiosHandler'
 
 export const registration = async (email, password) => {
     try {
-        const response = await axios.post(`https://itransition-final-server.onrender.com/api/auth/registration`, {
+        const response = await axios.post(`registration`, {
             email,
             password
         })
@@ -16,7 +17,7 @@ export const registration = async (email, password) => {
 export const login =  (email, password) => {
     return async dispatch => {
         try {
-            const response = await axios.post(`https://itransition-final-server.onrender.com/api/auth/login`, {
+            const response = await axios.post(`login`, {
                 email,
                 password
             })
@@ -31,7 +32,7 @@ export const login =  (email, password) => {
 export const auth =  () => {
     return async dispatch => {
         try {
-            const response = await axios.get(`https://itransition-final-server.onrender.com/api/auth/auth`,
+            const response = await axios.get(`auth`,
                 {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
             )
             dispatch(setUser(response.data.user))
@@ -45,7 +46,7 @@ export const auth =  () => {
 
 export const deleteuser = async (id) => {
     try {
-        await axios.delete(`https://itransition-final-server.onrender.com/api/auth/delete/${id}`)
+        await axios.delete(`delete/${id}`)
         
     } catch (e) {
         alert(e.response.data.message)
@@ -54,7 +55,7 @@ export const deleteuser = async (id) => {
 
 export const updateStatus = async (id) => {
     try {
-        await axios.patch(`https://itransition-final-server.onrender.com/api/auth/user/${id}`)
+        await axios.patch(`user/${id}`)
         
     } catch (e) {
         alert(e.response.data.message)
@@ -63,7 +64,7 @@ export const updateStatus = async (id) => {
 
 export const updateRole = async (id) => {
     try {
-        await axios.patch(`https://itransition-final-server.onrender.com/api/auth/userrole/${id}`)
+        await axios.patch(`userrole/${id}`)
         
     } catch (e) {
         alert(e.response.data.message)
@@ -76,7 +77,7 @@ export const updateRole = async (id) => {
 
 export const sendPost = async (formData) => {
     try {
-        const response = await axios.post(`https://itransition-final-server.onrender.com/api/auth/post`, formData)
+        const response = await axios.post(`post`, formData)
         alert(response.data.message)
     } catch (e) {
         alert(e.response.data.message)
@@ -85,7 +86,7 @@ export const sendPost = async (formData) => {
 
 export const deletePost = async (id) => {
     try {
-        await axios.delete(`https://itransition-final-server.onrender.com/api/auth/deletepost/${id}`)
+        await axios.delete(`deletepost/${id}`)
         
     } catch (e) {
         alert(e.response.data.message)

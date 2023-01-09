@@ -4,14 +4,11 @@ import './app.css'
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Registration from "./authorization/Registration";
 import Login from "./authorization/Login";
-
 import NotFound from './nooFound/NotFound';
-
-
 import {useDispatch, useSelector} from "react-redux";
 import {auth} from "../actions/user";
 import { useState } from 'react';
-import axios from 'axios'
+// import axios from 'axios'
 import User from './User/User';
 import PostsList from './Posts/PostsList';
 import PostDescription from './Posts/PostDescription';
@@ -20,7 +17,7 @@ import MenuCard from './Card/MenuCard';
 import useLocalstorage from '../hooks/use-localstorage';
 import i18n from '../i18n';
 import { useTranslation } from 'react-i18next';
-
+import axios from '../handlers/axiosHandler'
 
 
 function App() {
@@ -50,7 +47,7 @@ function App() {
 
     const getAllPosts = async () => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/allposts`,
+            const res = await axios.get(`allposts`,
 
                     {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
         )
@@ -63,7 +60,7 @@ function App() {
 
     const getAllUserInfo = async () => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/allusers`,
+            const res = await axios.get(`allusers`,
 
                     {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
         )
@@ -76,7 +73,7 @@ function App() {
 
     const getAllComments = async () => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/allcomments`,
+            const res = await axios.get(`allcomments`,
 
                     {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
         )
@@ -89,7 +86,7 @@ function App() {
 
     const getAllTags = async () => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/alltags`)
+            const res = await axios.get(`alltags`)
             setTags(res.data)
             
         } catch (e) {

@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { sendPost } from '../../actions/user';
 import Post from '../Posts/Post';
 import {useSelector} from "react-redux";
-import axios from 'axios'
+// import axios from 'axios'
 import { useParams} from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import { BsImage } from "react-icons/bs";
 import { useTranslation } from 'react-i18next';
+import axios from '../../handlers/axiosHandler'
 
 const User = (props) => {
 
@@ -61,7 +62,7 @@ const User = (props) => {
 
     const getoneuser = async (id) => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/getoneuser/${id}`)
+            const res = await axios.get(`getoneuser/${id}`)
             setUserInfo(res.data)
         } catch (e) {
             alert(e.response.data.message)
@@ -70,7 +71,7 @@ const User = (props) => {
 
     const getPostsFrom = async (sender) => {
         try {
-            const res = await axios.get(`https://itransition-final-server.onrender.com/api/auth/getpostsfrom/${sender}`)
+            const res = await axios.get(`getpostsfrom/${sender}`)
             setPosts(res.data)
         } catch (e) {
             alert(e.response.data.message)
@@ -80,15 +81,10 @@ const User = (props) => {
     
 
 
-    useEffect(() => {
-        // props.tags.map(e => {
-        //     currentTags.push(e.tag)
-        // })
-            
+    useEffect(() => {         
         const interval = setInterval(() => {
             getoneuser(params.id)
 			getPostsFrom(params.id)
-            // getTags()
 		  }, 3000)
           return () => clearInterval(interval);
         
@@ -105,7 +101,6 @@ const User = (props) => {
         }
         else{
             const formData = new FormData()
-            // sender, senderid, title, content, rate, category, hashtags
             formData.append('sender', userInfo.email)
             formData.append('senderid', params.id)
             formData.append('title', theme)
@@ -115,8 +110,6 @@ const User = (props) => {
             formData.append('hashtags', newtag)
             formData.append('testImage', image)
 
-
-            console.log(formData);
             sendPost(formData)
             setValue('')
             setTheme('')
@@ -147,32 +140,23 @@ const User = (props) => {
     const handleChange = event => {
         setSelected(event.target.value);
       };
-    // props.tags.map(e => console.log(e.tag))
 
     const filterTags = props.tags.filter(e => {
         return e.tag.toLowerCase().includes(newtag.toLowerCase())
 
     })
 
-    const handleTagChange = (e) => {
-        setNewTag(e.target.value)
-        
-    }
-
     const itemClickHandler = (e) => {
         setNewTag(e.target.textContent)
         setIsOpen(false)
     }
-
-
 
     return (
         <div className=' container mx-auto'>
            
             <div className=' flex items-center flex-col '>
                 
-                    <div className=' flex flex-col justify-center text-lg w-full mx-0 lg:mx-auto lg:w-3/6 font-bold border-4  p-4 rounded-lg dark:text-white dark:bg-slate-800'>
-                        
+                    <div className=' flex flex-col justify-center text-lg w-full mx-0 lg:mx-auto lg:w-3/6 font-bold border-4  p-4 rounded-lg dark:text-white dark:bg-slate-800'>                   
                         <div className='flex items-top'>
                             <div className='flex justify-center items-center bg-slate-50 w-16 h-16 text-slate-800 p-4 rounded-full'>
                                 {userInfo.email === undefined ? null : userInfo.email.slice(0, 1).toUpperCase() }
@@ -188,16 +172,11 @@ const User = (props) => {
                             </div>
                         </div>
                         
-
-                        <div className='mt-4'>
-                            
-                            
+                        <div className='mt-4'>    
                             {userInfo.role === 'admin' ? <div className=' mt-4 flex bg-yellow-300 rounded-lg w-fit p-2 hover:bg-yellow-400 cursor-pointer'><Link to={'/allUsers'}>{t('Admin panel')}</Link></div> : null}
                         </div>
-
-                            
-                        
                     </div>
+
                     <div className=' my-4 flex p-4 flex-col w-full mx-0 lg:mx-auto lg:w-3/6 border-4 dark:bg-slate-800 rounded-lg '>
                         {userInfo.status === 'active' || isAdmin 
                             ? 
@@ -231,9 +210,7 @@ const User = (props) => {
                                     {option.text}
                                 </option>
                                 ))}
-                        </select>
-                        
-                        
+                        </select>              
 
                         <textarea 
                             value={value} 
@@ -242,6 +219,7 @@ const User = (props) => {
                             className="px-3 py-2 bg-white my-4 h-44 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block rounded-md sm:text-sm focus:ring-1" 
                             placeholder={t("Description")} required
                         />
+
                         <input 
                             value={newtag} 
                             onChange={e => setNewTag(e.target.value)}

@@ -52,7 +52,7 @@ const PostsList = (props) => {
         />
     )
     
-    const allTags = props.tags.slice(1, 10).map(e => 
+    const allTags = props.tags.slice(0, 6).map(e => 
             <div className='mx-1'>
                 {e.tag}
             </div>
@@ -71,7 +71,7 @@ const PostsList = (props) => {
                 />
 
                 <div className=' w-full mx-0 lg:mx-auto lg:w-3/6 flex border-4 rounded-lg p-4 mt-4 dark:text-white font-semibold'>
-                    {t("Recent tags")}: {allTags}
+                    {t("Recent tags")}: {allTags} ...
                 </div>
 
                 <div className='flex justify-between font-bold mx-auto w-5/12 mt-4'>

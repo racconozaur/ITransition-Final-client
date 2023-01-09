@@ -1,34 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-import { updateStatus } from '../../actions/user';
 import Card from './Card';
-
-
 
 const MenuCard = (props) => {
 
-    const allUserId = []
-
     const [checked, setIsChecked] = useState(false)
-
-    const changeHandler = () => {
-        setIsChecked(!checked)
-        
-    }
-
-    const blockAllHandler = () => {
-
-        if (checked) {
-            props.data.map(user => updateStatus(user._id))
-            console.log('all blocked');
-            props.updateEffect()
-        }
-        else{
-            alert('check all first');
-        }
-    }
-
-
 
     const userList = props.data.map(user => 
         <Card
@@ -42,7 +18,6 @@ const MenuCard = (props) => {
             checkedState = {checked}
         />
     )
-
 
     return (
         <main className={props.className}>
