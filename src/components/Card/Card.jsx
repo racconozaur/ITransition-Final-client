@@ -7,34 +7,20 @@ import { Link } from 'react-router-dom';
 
 const Card = (props) => {
 
-    const single = Math.random()
-
-    const [blocked, setBlocked] = useState(props.status)
-    const [role, setRole] = useState(props.role)
-
     const blockHandler = () => {
-
         updateStatus(props.id)
-
     }
 
     const roleHandler = () => {
-        
         updateRole(props.id)
     }
 
-    // const setAdminHandler
-
     const deleteHandler = async () => {
-        console.log(props.id);
         deleteuser(props.id)
 
-        // window.location.reload();
         const reloadTimeout = setTimeout(() => {
             window.location.reload();
         }, 500)
-        
-        
     }
 
     

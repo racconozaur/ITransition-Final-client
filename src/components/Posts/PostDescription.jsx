@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '../../utils/button/Button';
 import { sendComment } from '../../actions/user';
-import logo from '../../assets/anonymous.jpg';
 import Post from './Post';
 import {useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
@@ -10,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 const PostDescription = (props) => {
 
     const location = useLocation()
-    const {postId, author, title, category, rate, content, hashtags, prevPath, image, likes} = location.state
+    const {postId, author, title, category, rate, content, hashtags, image, likes} = location.state
 
     const [comment, setComment] = useState('')
 

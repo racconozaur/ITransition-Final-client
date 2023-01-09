@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { deletePost, dislikePost, likePost, updatePost } from '../../actions/user';
-import {useDispatch, useSelector} from "react-redux";
-import Button from '../../utils/button/Button';
-import { AiOutlineStar } from "react-icons/ai";
+import React, { useState } from 'react';
+import { deletePost, likePost, updatePost } from '../../actions/user';
+import { useSelector} from "react-redux";
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import JsPDF from 'jspdf';
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment, AiOutlineEdit, AiOutlineCheck, AiOutlineDelete, AiOutlineFilePdf, AiTwotoneStar } from "react-icons/ai";
 import { useTranslation } from 'react-i18next';
@@ -38,21 +36,9 @@ const Post = (props) => {
 
     console.log(isAuth, isAdmin);
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-	// 		if(props.likes.includes(user)){
-    //             setLiked(true)
-    //         }
-	// 	  }, 3000);
-	// 	  return () => clearInterval(interval);
-        
-    // }, [])
-
     const deleteHandler = async () => {
         console.log(props.id);
         deletePost(props.id)
-        // props.updateEffect()
-        // window.location.reload();
         setTimeout(() => {
             window.location.reload()
         }, 500)
@@ -93,11 +79,6 @@ const Post = (props) => {
         
     }
 
-    // const dislikeHandler = () => {
-    //     dislikePost(props.id, user)
-    //     setLiked(false)
-    // }
-
     const handleChange = event => {
         setSelected(event.target.value);
       };
@@ -105,17 +86,25 @@ const Post = (props) => {
     const loc = window.location.pathname
 
     const generatePDF = async () => {
-        const input = document.querySelector('#report')
+        let img = new Image()
+        img.src = `https://itransition-final-server.onrender.com/api/auth/images/${props.img}`
+
         const pdf = new JsPDF('portrait','pt','a4')
-        await pdf.html(input).then(() => {
-            pdf.save('report.pdf');
-        });
+        pdf.text(`Author: ${props.sender}`, 10, 20)
+        pdf.text(`Rate: ${props.rate}`, 10, 40)
+        pdf.text(`Category: ${props.category}`, 10, 60)
+        pdf.text(`Likes: ${props.likes}`, 10, 80)
+        pdf.text(`Title: ${props.title}`, 10, 100)
+        pdf.text(`Description: ${props.category}`, 10, 120)
+        pdf.text(`Tags: ${props.hashtags}`, 10, 140)
+        pdf.addImage(img, 'png', 10, 160)
         
+        await pdf.save(`${props.title}.pdf`)
     }
 
     return (
         <div className=' flex rounded-lg w-full mx-0 lg:mx-auto lg:w-5/12 border-4 border-blue-400 drop-shadow-lg p-6 my-4 bg-white dark:bg-slate-800 dark:border-white ' id='report'>
-            <div className='flex flex-col w-full'>
+            <div className='flex flex-col w-full ' >
                 <div className='flex justify-between'>
                     <h2 className=' text-green-300 font-bold text-lg dark:text-sky-500'>{t('Author')}: {props.sender}</h2>
                     <div className='flex font-semibold text-lg dark:text-white'>
@@ -129,7 +118,8 @@ const Post = (props) => {
                     {props.img && 
                         <img 
                             src={`https://itransition-final-server.onrender.com/api/auth/images/${props.img}`}
-                            className='w-full h-4/5 my-4' 
+                            className='w-full h-4/5 my-4'
+                            alt={props.img}
                         />
                     }
                     

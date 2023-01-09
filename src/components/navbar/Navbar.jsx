@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {NavLink, Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../reducers/userReducer";
 import {BsFillMoonStarsFill} from 'react-icons/bs'
@@ -18,15 +18,6 @@ const Navbar = (props) => {
         i18n.changeLanguage('ru');
         setLanguage('ru');
         setChangeLang(false)
-        // if (language === 'en') {
-        //     i18n.changeLanguage('ru');
-        //     setLanguage('ru');
-        //     console.log('ry');
-        // } else if (language === 'ru') {
-        //     i18n.changeLanguage('en');
-        //     setLanguage('en');
-        //     console.log('eng');
-        // }
     };
 
     const handleLenguageChangeEn = () => {

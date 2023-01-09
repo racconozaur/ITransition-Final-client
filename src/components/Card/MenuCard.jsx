@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
 import { updateStatus } from '../../actions/user';
-import Toolbar from '../Toolbar/Toolbar';
 import Card from './Card';
 
 
@@ -18,16 +17,11 @@ const MenuCard = (props) => {
     }
 
     const blockAllHandler = () => {
-        // allUserId.forEach(e => {
-        //     updateStatus(e)
-        // })
+
         if (checked) {
             props.data.map(user => updateStatus(user._id))
             console.log('all blocked');
             props.updateEffect()
-            // const reloadTimeout = setTimeout(() => {
-            //     window.location.reload();
-            // }, 500)
         }
         else{
             alert('check all first');
