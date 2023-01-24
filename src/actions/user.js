@@ -95,7 +95,7 @@ export const deletePost = async (id) => {
 
 export const updatePost = async (id, title, content, rate, category, hashtags) => {
     try {
-        await axios.patch(`https://itransition-final-server.onrender.com/api/auth/post/${id}`, {
+        await axios.patch(`post/${id}`, {
             title, content, rate, category, hashtags
         })
     } catch (e) {
@@ -105,7 +105,7 @@ export const updatePost = async (id, title, content, rate, category, hashtags) =
 
 export const likePost = async (id, username) => {
     try {
-        await axios.patch(`https://itransition-final-server.onrender.com/api/auth/likepost/${id}`, {
+        await axios.patch(`likepost/${id}`, {
             username
         })
     } catch (e) {
@@ -115,7 +115,7 @@ export const likePost = async (id, username) => {
 
 export const dislikePost = async (id, username) => {
     try {
-        await axios.patch(`https://itransition-final-server.onrender.com/api/auth/likepost/${id}`, {
+        await axios.patch(`likepost/${id}`, {
             username
         })
     } catch (e) {
@@ -127,7 +127,7 @@ export const dislikePost = async (id, username) => {
 
 export const sendComment = async (postId, comment, author) => {
     try {
-        const response = await axios.post(`https://itransition-final-server.onrender.com/api/auth/comment`, {
+        const response = await axios.post(`comment`, {
             postId, comment, author
         })
         alert(response.data.message)

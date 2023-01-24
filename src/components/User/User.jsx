@@ -107,6 +107,7 @@ const User = (props) => {
             formData.append('hashtags', newtag)
             formData.append('testImage', image)
 
+            console.log(formData)
             sendPost(formData)
             setValue('')
             setTheme('')

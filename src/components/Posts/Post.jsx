@@ -72,11 +72,8 @@ const Post = (props) => {
     }
 
     const likeHandler = () => {
-        
         likePost(props.id, user)
         setLiked(!liked)
-        
-        
     }
 
     const handleChange = event => {
@@ -87,7 +84,7 @@ const Post = (props) => {
 
     const generatePDF = async () => {
         let img = new Image()
-        img.src = `https://itransition-final-server.onrender.com/api/auth/images/${props.img}`
+        img.src = `${props.img}`
 
         const pdf = new JsPDF('portrait','pt','a4')
         pdf.text(`Author: ${props.sender}`, 10, 20)
@@ -117,7 +114,7 @@ const Post = (props) => {
                 
                     {props.img && 
                         <img 
-                            src={`https://itransition-final-server.onrender.com/api/auth/images/${props.img}`}
+                            src={props.img}
                             className='w-full h-4/5 my-4'
                             alt={props.img}
                         />

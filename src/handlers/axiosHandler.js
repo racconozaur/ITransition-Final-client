@@ -1,5 +1,5 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://itransition-final-server.onrender.com/api/auth/";
+axios.defaults.baseURL = "http://localhost:5000/api/auth/";
 
 export default axios;

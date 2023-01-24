@@ -8,7 +8,6 @@ import NotFound from './nooFound/NotFound';
 import {useDispatch, useSelector} from "react-redux";
 import {auth} from "../actions/user";
 import { useState } from 'react';
-// import axios from 'axios'
 import User from './User/User';
 import PostsList from './Posts/PostsList';
 import PostDescription from './Posts/PostDescription';
@@ -16,12 +15,10 @@ import { setAdmin } from '../reducers/userReducer';
 import MenuCard from './Card/MenuCard';
 import useLocalstorage from '../hooks/use-localstorage';
 import i18n from '../i18n';
-import { useTranslation } from 'react-i18next';
 import axios from '../handlers/axiosHandler'
 
 
 function App() {
-    const [count, setCount] = useState(0)
     const isAuth = useSelector(state => state.user.isAuth)
     const isAdmin = useSelector(state => state.user.isAdmin)
     const dispatch = useDispatch()
@@ -41,7 +38,6 @@ function App() {
             document.documentElement.classList.remove('dark')
             setDarkMode(!darkMode)
         }
-        
     }
 
     const getAllUserInfo = async () => {
@@ -68,15 +64,14 @@ function App() {
     }
 
     userData.map(e => {
-        if(e.email === localStorage.getItem('user') && e.role === 'admin'){
-            dispatch(setAdmin())
-        }
-    })
-
-    userData.map(e => {
         if(e.email === localStorage.getItem('user')){
             localStorage.setItem('id', e._id)
         }
+
+        if(e.email === localStorage.getItem('user') && e.role === 'admin'){
+            dispatch(setAdmin())
+        }
+        return null
     })
 
 
@@ -84,12 +79,6 @@ function App() {
         dispatch(auth())
         getAllUserInfo()
         getAllTags()
-        // const interval = setInterval(() => {
-        //     getAllUserInfo()
-        //     getAllTags()
-		// 	console.log('hey');
-		//   }, 3000);
-		//   return () => clearInterval(interval);
     }, [])
 
 
@@ -139,9 +128,7 @@ function App() {
                                 <Route path='/*' component={NotFound}/>
                             </Switch>
                         :   
-                            null
-                            /* <h2 className=' flex justify-center text-lg font-bold mt-10 text-white'>Hello u should Register or Log-In first :)</h2> */
-                            /* <PostsList data={data}/> */     
+                            null 
                     }
 
                     {
