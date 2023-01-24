@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '../../utils/button/Button';
 import { sendComment } from '../../actions/user';
 import Post from './Post';
 import {useSelector} from "react-redux";
 import { useTranslation } from 'react-i18next';
+import axios from '../../handlers/axiosHandler';
 
 const PostDescription = (props) => {
+
+    const [comments, setComments] = useState([])
 
     const location = useLocation()
     const {postId, author, title, category, rate, content, hashtags, image, likes} = location.state
@@ -31,14 +34,34 @@ const PostDescription = (props) => {
         }
     }
 
-    const commentList = props.comments.map( e => {
+    const getAllComments = async () => {
+        try {
+            const res = await axios.get(`allcomments`,
+
+                    {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
+        )
+            setComments(res.data)
+            return res.data
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getAllComments()
+			console.log('hey from comments');
+		  }, 3000);
+		  return () => clearInterval(interval);
+    }, [])
+
+    const commentList = comments.map( e => {
         if(e.postId === postId){
             return(
                 <div 
                     key={e._id}
                     className=' rounded-lg flex w-full mx-0 lg:mx-auto lg:w-5/12 border-4 p-4 m-4 dark:bg-slate-800 dark:text-white '
                 >
-                    {/* <img className='w-10 h-10 mr-2 rounded-full' src={logo} alt="logo" /> */}
                     <div className='flex justify-center items-center bg-slate-50 w-10 h-10 text-slate-800 p-4 mr-2 rounded-full'>
                         {e.author === undefined ? null : e.author.slice(0, 1).toUpperCase() }
                     </div>
@@ -52,7 +75,6 @@ const PostDescription = (props) => {
         }
         return null
     })
-
 
     return (
         <div className=' container mx-auto'>
@@ -98,7 +120,6 @@ const PostDescription = (props) => {
                     </div>
             }
 
-            
             <div className=' dark:text-white font-bold text-lg w-full mx-0 lg:mx-auto lg:w-5/12 my-4'>
                 {t('Comments')}:
             </div>

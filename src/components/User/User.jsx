@@ -78,9 +78,6 @@ const User = (props) => {
         }
     }
 
-    
-
-
     useEffect(() => {         
         const interval = setInterval(() => {
             getoneuser(params.id)
@@ -168,7 +165,6 @@ const User = (props) => {
                                     <div className={userInfo.status === 'active' ? 'bg-green-300' : 'bg-red-400'}>{t('Status')}: {userInfo.status}</div>
                                     <div className={userInfo.role === 'user' ? 'bg-blue-300' : 'bg-yellow-400'}>{t('Role')}: {userInfo.role}</div>
                                 </div>
-                                
                             </div>
                         </div>
                         
@@ -204,7 +200,6 @@ const User = (props) => {
                             onChange={handleChange}
                             className="px-3 py-2  bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block rounded-md sm:text-sm focus:ring-1" 
                         >
-                            
                                 {options.map(option => (
                                 <option key={option.value} value={option.value}>
                                     {option.text}

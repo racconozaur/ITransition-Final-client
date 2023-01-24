@@ -26,9 +26,8 @@ function App() {
     const isAdmin = useSelector(state => state.user.isAdmin)
     const dispatch = useDispatch()
 
-    const [data, setData] = useState([])
+
     const [userData, setUserData] = useState([])
-    const [comments, setComments] = useState([])
     const [tags, setTags] = useState([])
 
     const [darkMode, setDarkMode] = useState(false)
@@ -45,19 +44,6 @@ function App() {
         
     }
 
-    const getAllPosts = async () => {
-        try {
-            const res = await axios.get(`allposts`,
-
-                    {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
-        )
-            setData(res.data)
-            return res.data
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     const getAllUserInfo = async () => {
         try {
             const res = await axios.get(`allusers`,
@@ -65,19 +51,6 @@ function App() {
                     {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
         )
             setUserData(res.data)
-            return res.data
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const getAllComments = async () => {
-        try {
-            const res = await axios.get(`allcomments`,
-
-                    {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
-        )
-            setComments(res.data)
             return res.data
         } catch (e) {
             console.log(e);
@@ -109,21 +82,18 @@ function App() {
 
     useEffect(() => {
         dispatch(auth())
-        // getAllUserInfo()
-        const interval = setInterval(() => {
-			getAllPosts()
-            getAllUserInfo()
-            getAllComments()
-            getAllTags()
-			console.log('hey');
-		  }, 3000);
-		  return () => clearInterval(interval);
-    }, [count])
+        getAllUserInfo()
+        getAllTags()
+        // const interval = setInterval(() => {
+        //     getAllUserInfo()
+        //     getAllTags()
+		// 	console.log('hey');
+		//   }, 3000);
+		//   return () => clearInterval(interval);
+    }, [])
 
 
-    const {t} = useTranslation;
     const [language, setLanguage] = useLocalstorage('language', 'ru')
-
     const handleLenguageChange = () => {
         if (language === 'en') {
             i18n.changeLanguage('ru');
@@ -136,54 +106,42 @@ function App() {
 
     return (
         <BrowserRouter>
-            <div  >
                 <Navbar onDark={darkModeHandler} handleLenguageChange={handleLenguageChange} language={language}/>
                 <main className=''>
-                <div className="wrap ">
-                    {!isAuth &&
-                    <Switch>
-                        {/* <Route path='/' >
-                            <PostsList data={data}/>
-                        </Route> */}
-                        <Route path="/registration" component={Registration}/>
-                        <Route path="/login" component={Login}/>
-                        <Route exact path='/' component={NotFound}/>
-                        <Route exact path='/all' >
-                            <PostsList data={data} tags={tags}/>
-                        </Route>
-                        <Route path='/postinfo'>
-                            <PostDescription comments={comments}/>
-                        </Route>
-                    </Switch>
-                    }
-                </div>
 
-                    {/* {!isAuth ? '' :<p className=' text-white flex justify-center'>Sometimes you will need to reload page to see changes</p>} */}
-                    
-                    {/* <MenuCard className={'container mx-auto flex flex-col justify-cener'} data={data} updateEffect={updateEffect}/>  */}
-                   
-                
+                    {!isAuth &&
+                        <Switch>
+                            <Route path="/registration" component={Registration}/>
+                            <Route path="/login" component={Login}/>
+                            <Route exact path='/' component={NotFound}/>
+                            <Route exact path='/all' >
+                                <PostsList tags={tags}/>
+                            </Route>
+                            <Route path='/postinfo'>
+                                <PostDescription/>
+                            </Route>
+                        </Switch>
+                    }
+
                     {isAuth 
                         ?   
                             <Switch>
                                 <Route path={'/user/:id'}>
-                                    <User data={data} userData={userData} tags={tags}/>
+                                    <User tags={tags}/>
                                 </Route>
                                 <Route path='/all' >
-                                    <PostsList data={data} tags={tags}/>
+                                    <PostsList tags={tags}/>
                                 </Route>
                                 <Route path='/postinfo'>
-                                    <PostDescription comments={comments}/>
+                                    <PostDescription/>
                                 </Route>
                         
                                 <Route path='/*' component={NotFound}/>
                             </Switch>
                         :   
-                            <>
-                            {/* <h2 className=' flex justify-center text-lg font-bold mt-10 text-white'>Hello u should Register or Log-In first :)</h2> */}
-                            {/* <PostsList data={data}/> */}
-                            </>
-                            
+                            null
+                            /* <h2 className=' flex justify-center text-lg font-bold mt-10 text-white'>Hello u should Register or Log-In first :)</h2> */
+                            /* <PostsList data={data}/> */     
                     }
 
                     {
@@ -197,9 +155,7 @@ function App() {
                         :
                             null
                     }
-                </main>
-            </div>
-            
+                </main>    
         </BrowserRouter>
     );
 }

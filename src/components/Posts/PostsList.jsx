@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../utils/button/Button';
 import Post from './Post';
 import { useTranslation } from 'react-i18next';
+import axios from '../../handlers/axiosHandler';
 
 const PostsList = (props) => {
 
@@ -10,15 +11,38 @@ const PostsList = (props) => {
 
     const {t} = useTranslation()
 
+    const [postData, setPostData] = useState([])
+
+    const getAllPosts = async () => {
+        try {
+            const res = await axios.get(`allposts`,
+
+                    {headers:{Authorization:`Bearer ${localStorage.getItem('token')}`}}
+        )
+            setPostData(res.data)
+            return res.data
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+			getAllPosts()
+			console.log('hey from posts');
+		  }, 3000);
+		  return () => clearInterval(interval);
+    }, [])
+
     const sortedHandler = () => {
         setSorted(!sorted)
     }
 
-    const sortedPosts = props.data.sort((a, b) => {
+    const sortedPosts = postData.sort((a, b) => {
         return +b.rate - +a.rate
     })
 
-    const filteredPosts = props.data.filter(post => {
+    const filteredPosts = postData.filter(post => {
         return post.title.toLowerCase().includes(value.toLowerCase())
     })
 

@@ -21,7 +21,6 @@ const MenuCard = (props) => {
 
     return (
         <main className={props.className}>
-            {/* {userList} */}
             <div className="flex flex-col w-full">
                 <div className="overflow-x-auto">
                     <div className="p-1.5 w-full inline-block align-middle">
@@ -81,8 +80,7 @@ const MenuCard = (props) => {
                     </div>
                 </div>
             </div>
-        </main>
-        
+        </main> 
     );
 };
 
